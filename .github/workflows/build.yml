@@ -7,17 +7,14 @@ on:
 
 jobs:
   build:
-    runs-on: macos-15
+    runs-on: macos-13
     steps:
       - uses: actions/checkout@v4
-
-      - name: Select Xcode 12.4
-        run: sudo xcode-select -s /Applications/Xcode_12.4.app/Contents/Developer
 
       - name: Setup iOS 8.1 SDK & Theos
         run: |
           git clone --recursive https://github.com/theos/theos.git $HOME/theos
-          git clone https://github.com/xybp888/iOS-SDKs.git $HOME/sdks
+          git clone --depth 1 https://github.com/xybp888/iOS-SDKs.git $HOME/sdks
           mkdir -p $HOME/theos/sdks
           cp -r $HOME/sdks/iPhoneOS8.1.sdk $HOME/theos/sdks/
 
