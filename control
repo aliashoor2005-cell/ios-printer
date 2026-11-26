@@ -1,0 +1,8 @@
+Package: com.fatoorati.ios8
+Name: Fatoorati
+Version: 1.0.0
+Architecture: iphoneos-arm
+Description: Fast Cat Printer POS & Balance Printing for iOS 8 iPad 4
+Maintainer: Ali Ashoor
+Author: Ali Ashoor
+Section: Utilities

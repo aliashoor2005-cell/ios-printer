@@ -1,0 +1,37 @@
+name: Build Fatoorati iOS 8 IPA
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-13
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Select Xcode 12.4
+        run: sudo xcode-select -s /Applications/Xcode_12.4.app/Contents/Developer
+
+      - name: Setup iOS 8.1 SDK & Theos
+        run: |
+          git clone --recursive https://github.com/theos/theos.git $HOME/theos
+          git clone https://github.com/xybp888/iOS-SDKs.git $HOME/sdks
+          mkdir -p $HOME/theos/sdks
+          cp -r $HOME/sdks/iPhoneOS8.1.sdk $HOME/theos/sdks/
+
+      - name: Compile & Package IPA
+        env:
+          THEOS: ${{ env.HOME }}/theos
+        run: |
+          make package FINALPACKAGE=1
+          mkdir -p Payload
+          cp -r .theos/_/Applications/Fatoorati.app Payload/
+          zip -r Fatoorati-iOS8-iPad4.ipa Payload
+
+      - name: Upload IPA Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Fatoorati-iOS8-IPA
+          path: Fatoorati-iOS8-iPad4.ipa
